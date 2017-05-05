@@ -5,8 +5,8 @@
 
 class Student {
 
-    private String name;
-    private String major;
+    private final String name;
+    private final String major;
     private int credits; // holds total number of credits
     private double points; // holds GPA point totals
 

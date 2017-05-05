@@ -9,11 +9,11 @@ import javax.swing.*;
 
 public class StudentDatabaseGUI extends javax.swing.JFrame {
     
-    Integer id;
-    String name;
-    String major;
+    private Integer id;
+    private String name;
+    private String major;
     
-    private HashMap<Integer, Student> database = new HashMap<>();
+    private final HashMap<Integer, Student> database = new HashMap<>();
 
     public StudentDatabaseGUI() {
         initComponents();
