@@ -1,3 +1,4 @@
+// Developer:   Matthew Daniels
 // Class:       CMIS 242 - Project 4
 // Date:        04 May 2017
 // Filename:    StudentDatabaseGUI.java
