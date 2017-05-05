@@ -140,7 +140,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 successPane("Student #" + id + " added to database.");
                 break;
             case "Delete":
-                if (!getID()) {
+                if (!validateID()) {
                     break;
                 }
                 if (!database.containsKey(id)) {
@@ -151,7 +151,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 successPane("Student # " + id + " removed from database.");
                 break;
             case "Find":
-                if (!getID()) {
+                if (!validateID()) {
                     break;
                 }
                 if (!database.containsKey(id)) {
@@ -161,7 +161,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 successPane("ID: " + id + ", " + database.get(id));
                 break;
             case "Update":
-                if (!getID()) {
+                if (!validateID()) {
                     break;
                 }
                 if (!database.containsKey(id)) {
@@ -171,7 +171,9 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 double basePoints = getPoints();
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
-                successPane("Student with ID #" + id + " awarded a grade of " + basePoints + " for a class of " + creditPoints + " credit hours.");
+                successPane("Student with ID #" + id + " awarded a grade of " 
+                           + basePoints + " for a class of " + creditPoints 
+                           + " credit hours.");
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
@@ -200,9 +202,8 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
 		return true;
 	}
 	
-	// sets ID variable to data from the idField
-	// returns "true" on valid ID and "false" otherwise
-	private boolean getID() {
+	// -------------- VALIDATE ID IS AN INTEGER METHOD -------------
+	private boolean validateID() {
 		try {
 			id = Integer.parseInt(idTextField.getText());
 		} catch (NumberFormatException e) {

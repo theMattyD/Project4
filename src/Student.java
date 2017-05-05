@@ -26,12 +26,12 @@ class Student {
 
     @Override
     public String toString() {
-        String s = "Name: " + name;
-        s += ", Major: " + major;
+        String s = ("Name: ") + name;
+        s += (", Major: ") + major;
         if (credits == 0) {
-            s += ", GPA: n/a";
+            s += (", GPA: n/a");
         } else {
-            s += ", GPA: " + (points / credits);
+            s += (", GPA: ") + (points / credits);
         }
         return s;
     }
