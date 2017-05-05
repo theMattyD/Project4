@@ -4,13 +4,21 @@
 // Filename:    StudentDatabaseGUI.java
 // Purpose:     This is the GUI constructor class for a student records database
 
+import java.util.*;
+import javax.swing.*;
+
 public class StudentDatabaseGUI extends javax.swing.JFrame {
+    
+    Integer id;
+    String name;
+    String major;
+    
+    private HashMap<Integer, Student> database = new HashMap<>();
 
     public StudentDatabaseGUI() {
         initComponents();
     }
 
- 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -117,13 +125,136 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
     }//GEN-LAST:event_idTextFieldActionPerformed
 
     private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
-        // TODO add your handling code here:
+        String str = (String) selectionBox.getSelectedItem();
+        switch (str) { // choose between the 4 possible menu options
+            case "Insert":
+                if (!getInfo()) {
+                    break;
+                }
+                if (database.containsKey(id)) {
+                    errorPane("The database already contains a student with ID " + id);
+                    break;
+                }
+                Student s = new Student(name, major);
+                database.put(id, s);
+                successPane("Student #" + id + " added to database.");
+                break;
+            case "Delete":
+                if (!getID()) {
+                    break;
+                }
+                if (!database.containsKey(id)) {
+                    errorPane("No student with ID " + id + " exists in the database.");
+                    break;
+                }
+                database.remove(id);
+                successPane("Student # " + id + " removed from database.");
+                break;
+            case "Find":
+                if (!getID()) {
+                    break;
+                }
+                if (!database.containsKey(id)) {
+                    errorPane("No student with ID " + id + " exists in the database.");
+                    break;
+                }
+                successPane("ID: " + id + ", " + database.get(id));
+                break;
+            case "Update":
+                if (!getID()) {
+                    break;
+                }
+                if (!database.containsKey(id)) {
+                    errorPane("No student with ID " + id + " exists in the database.");
+                    break;
+                }
+                double basePoints = getPoints();
+                int creditPoints = getCredits();
+                database.get(id).courseCompleted(creditPoints, basePoints);
+                successPane("Student with ID #" + id + " awarded a grade of " + basePoints + " for a class of " + creditPoints + " credit hours.");
+                break;
+        }
     }//GEN-LAST:event_processButtonActionPerformed
 
-
+    // sets variables to information stored in ID, name and major fields
+	// returns "true" if all data was valid and "false" otherwise
+	private boolean getInfo() {
+		boolean hasName = true;
+		boolean hasMajor = true;
+		try {
+			id = Integer.parseInt(idTextField.getText());
+		} catch (NumberFormatException e) {
+			errorPane("Please enter an integer for ID.");
+			return false;
+		}
+		name = nameTextField.getText();
+		major = majorTextField.getText();
+		if (name.equals("")) hasName = false;
+		if (major.equals("")) hasMajor = false;
+		if (!hasName || !hasMajor) {
+			if (!hasName && hasMajor) errorPane("Please enter a name.");
+			else if (hasName && !hasMajor) errorPane("Please enter a major.");
+			else errorPane("Please enter a name and major.");
+			return false;
+		}
+		return true;
+	}
+	
+	// sets ID variable to data from the idField
+	// returns "true" on valid ID and "false" otherwise
+	private boolean getID() {
+		try {
+			id = Integer.parseInt(idTextField.getText());
+		} catch (NumberFormatException e) {
+			errorPane("Please enter an integer for ID.");
+			return false;
+		}
+		return true;
+	}
+	
+	// ------------ SUCCESS INFOPANE METHOD ---------------------
+	private void successPane(String s) {
+		JOptionPane.showMessageDialog(this, s, "Success",
+		JOptionPane.INFORMATION_MESSAGE);
+	}
+	
+	// ------------- ERROR INFOPANE METHOD ---------------------
+	private void errorPane(String s) {
+		JOptionPane.showMessageDialog(this, s, "Error",
+		JOptionPane.ERROR_MESSAGE);
+	}
+	
+	// routine for querying for information to update grades
+	// used in conjunction with getCredits()
+	private double getPoints() {
+		JPanel pointPanel = new JPanel();
+		String[] gradeOptions = {"A", "B", "C", "D", "F"};
+		JComboBox gradeBox = new JComboBox<>(gradeOptions);
+		JLabel pointLabel = new JLabel("Choose Grade:");
+		pointPanel.add(pointLabel);
+		pointPanel.add(gradeBox);
+		JOptionPane.showMessageDialog(this, pointPanel, "Grade", JOptionPane.QUESTION_MESSAGE);
+		return 4 - gradeBox.getSelectedIndex();
+	}
+	
+	// routine for querying for information to update credit hours
+	// used in conjunction with getPoints()
+	private int getCredits() {
+		JPanel creditPanel = new JPanel();
+		String[] creditOptions = {"3", "6"};
+		JComboBox creditBox = new JComboBox<>(creditOptions);
+		JLabel creditLabel = new JLabel("Choose Credits:");
+		creditPanel.add(creditLabel);
+		creditPanel.add(creditBox);
+		creditPanel.validate();
+		JOptionPane.showMessageDialog(this, creditPanel, "Credits", JOptionPane.QUESTION_MESSAGE);
+		return 3 * (creditBox.getSelectedIndex() + 1);
+	}
+    
     public static void main(String args[]) {
-        
+
         java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
             public void run() {
                 new StudentDatabaseGUI().setVisible(true);
             }
