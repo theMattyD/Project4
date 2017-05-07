@@ -172,9 +172,10 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 double basePoints = getPoints();
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
+                String gradeEquivalent = "this don't work";
                 successPane("Student #: " + id + "\n" +
                             "Name: " + name + "\n"  +
-                            "Grade Assigned: " + basePoints + "\n" +
+                            "Grade Assigned: " + gradeEquivalent + "\n" +
                             "Credit Hours:  " + creditPoints);
                 break;
         }
