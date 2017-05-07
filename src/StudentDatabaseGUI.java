@@ -8,11 +8,11 @@ import java.util.*;
 import javax.swing.*;
 
 public class StudentDatabaseGUI extends javax.swing.JFrame {
-    
+
     private Integer id;
     private String name;
     private String major;
-    
+
     private final HashMap<Integer, Student> database = new HashMap<>();
 
     public StudentDatabaseGUI() {
@@ -121,22 +121,23 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void idTextFieldActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idTextFieldActionPerformed
-        // TODO add your handling code here:
+        // no code required
     }//GEN-LAST:event_idTextFieldActionPerformed
 
     private void processButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processButtonActionPerformed
-        String str = (String) selectionBox.getSelectedItem();
-        switch (str) { // choose between the 4 possible menu options
+        String selection = (String) selectionBox.getSelectedItem();
+        // drop-down menu items from selectionBox
+        switch (selection) {
             case "Insert":
-                if (!getInfo()) {
+                if (!validateFields()) {
                     break;
                 }
                 if (database.containsKey(id)) {
-                    errorPane("The database already contains a student with ID " + id);
+                    errorPane("ID# " + id + " already exists in the database.");
                     break;
                 }
-                Student s = new Student(name, major);
-                database.put(id, s);
+                Student joeStudent = new Student(name, major);
+                database.put(id, joeStudent);
                 successPane("Student #" + id + " added to database.");
                 break;
             case "Delete":
@@ -171,87 +172,96 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 double basePoints = getPoints();
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
-                successPane("Student with ID #" + id + " awarded a grade of " 
-                           + basePoints + " for a class of " + creditPoints 
-                           + " credit hours.");
+                successPane("Student #: " + id + "\n" +
+                            "Name: " + name + "\n"  +
+                            "Grade Assigned: " + basePoints + "\n" +
+                            "Credit Hours:  " + creditPoints);
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
 
-    // sets variables to information stored in ID, name and major fields
-	// returns "true" if all data was valid and "false" otherwise
-	private boolean getInfo() {
-		boolean hasName = true;
-		boolean hasMajor = true;
-		try {
-			id = Integer.parseInt(idTextField.getText());
-		} catch (NumberFormatException e) {
-			errorPane("Please enter an integer for ID.");
-			return false;
-		}
-		name = nameTextField.getText();
-		major = majorTextField.getText();
-		if (name.equals("")) hasName = false;
-		if (major.equals("")) hasMajor = false;
-		if (!hasName || !hasMajor) {
-			if (!hasName && hasMajor) errorPane("Please enter a name.");
-			else if (hasName && !hasMajor) errorPane("Please enter a major.");
-			else errorPane("Please enter a name and major.");
-			return false;
-		}
-		return true;
-	}
-	
-	// -------------- VALIDATE ID IS AN INTEGER METHOD -------------
-	private boolean validateID() {
-		try {
-			id = Integer.parseInt(idTextField.getText());
-		} catch (NumberFormatException e) {
-			errorPane("Please enter an integer for ID.");
-			return false;
-		}
-		return true;
-	}
-	
-	// ------------ SUCCESS INFOPANE METHOD ---------------------
-	private void successPane(String s) {
-		JOptionPane.showMessageDialog(this, s, "Success",
-		JOptionPane.INFORMATION_MESSAGE);
-	}
-	
-	// ------------- ERROR INFOPANE METHOD ---------------------
-	private void errorPane(String s) {
-		JOptionPane.showMessageDialog(this, s, "Error",
-		JOptionPane.ERROR_MESSAGE);
-	}
-	
-	// routine for querying for information to update grades
-	// used in conjunction with getCredits()
-	private double getPoints() {
-		JPanel pointPanel = new JPanel();
-		String[] gradeOptions = {"A", "B", "C", "D", "F"};
-		JComboBox gradeBox = new JComboBox<>(gradeOptions);
-		JLabel pointLabel = new JLabel("Choose Grade:");
-		pointPanel.add(pointLabel);
-		pointPanel.add(gradeBox);
-		JOptionPane.showMessageDialog(this, pointPanel, "Grade", JOptionPane.QUESTION_MESSAGE);
-		return 4 - gradeBox.getSelectedIndex();
-	}
-	
-	// routine for querying for information to update credit hours
-	// used in conjunction with getPoints()
-	private int getCredits() {
-		JPanel creditPanel = new JPanel();
-		String[] creditOptions = {"3", "6"};
-		JComboBox creditBox = new JComboBox<>(creditOptions);
-		JLabel creditLabel = new JLabel("Choose Credits:");
-		creditPanel.add(creditLabel);
-		creditPanel.add(creditBox);
-		creditPanel.validate();
-		JOptionPane.showMessageDialog(this, creditPanel, "Credits", JOptionPane.QUESTION_MESSAGE);
-		return 3 * (creditBox.getSelectedIndex() + 1);
-	}
+    // ------------ BOOLEAN CHECK OF NAME AND MAJOR FIELDS ---------------
+    private boolean validateFields() {
+        boolean hasName = true;
+        boolean hasMajor = true;
+        try {
+            id = Integer.parseInt(idTextField.getText());
+        } catch (NumberFormatException e) {
+            errorPane("Please enter an integer for the ID.");
+            return false;
+        }
+        name = nameTextField.getText();
+        major = majorTextField.getText();
+        if (name.equals("")) {
+            hasName = false;
+        }
+        if (major.equals("")) {
+            hasMajor = false;
+        }
+        if (!hasName || !hasMajor) {
+            if (!hasName && hasMajor) {
+                errorPane("Please enter a name.");
+            } else if (hasName && !hasMajor) {
+                errorPane("Please enter a major.");
+            } else {
+                errorPane("Please enter a name and major.");
+            }
+            return false;
+        }
+        return true;
+    }
+
+    // --------- VALIDATE THAT STUDENT ID IS AN INTEGER METHOD -------------
+    private boolean validateID() {
+        try {
+            id = Integer.parseInt(idTextField.getText());
+        } catch (NumberFormatException e) {
+            errorPane("Please enter an integer value for the ID.");
+            return false;
+        }
+        return true;
+    }
+
+    // ----------------- ERROR INFOPANE METHOD -------------------------
+    private void errorPane(String error) {
+        JOptionPane.showMessageDialog(this, error, "Error",
+                JOptionPane.ERROR_MESSAGE);
+    }
     
+    // ---------------- SUCCESS INFOPANE METHOD ---------------------
+    private void successPane(String success) {
+        JOptionPane.showMessageDialog(this, success, "Success",
+                JOptionPane.INFORMATION_MESSAGE);
+    }
+
+    // ----------- FOR 'UPDATE' RECORD, SELECT STUDENT GRADE ------------
+    private double getPoints() {
+        JPanel pointPanel = new JPanel();
+        String[] gradeOptions = {"A", "B", "C", "D", "F"};
+        JComboBox gradeBox = new JComboBox<>(gradeOptions);
+        JLabel pointLabel = new JLabel("Choose Grade:");
+        pointPanel.add(pointLabel);
+        pointPanel.add(gradeBox);
+        JOptionPane.showMessageDialog(this, pointPanel, "Grade",
+                JOptionPane.QUESTION_MESSAGE);
+        return 4 - gradeBox.getSelectedIndex();
+    }
+
+    // --------- FOR 'UPDATE' RECORD, SELECT STUDENT CREDIT POINTS --------
+    private int getCredits() {
+        JPanel creditsPanel = new JPanel();
+        String[] creditOptions = {"3", "6"};
+        JComboBox creditsBox = new JComboBox<>(creditOptions);
+        JLabel creditsLabel = new JLabel("Choose Credits:");
+        creditsPanel.add(creditsLabel);
+        creditsPanel.add(creditsBox);
+        creditsPanel.validate();
+        JOptionPane.showMessageDialog(this, creditsPanel, "Credits",
+                JOptionPane.QUESTION_MESSAGE);
+        return 3 * (creditsBox.getSelectedIndex() + 1);
+    }
+
+    // ------------------- MAIN METHOD -------------------------
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {

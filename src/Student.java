@@ -8,32 +8,31 @@ class Student {
 
     private final String name;
     private final String major;
-    private int credits; // holds total number of credits
-    private double points; // holds GPA point totals
+    private int creditHours;
+    private double gpaPoints;
 
-    Student(String aName, String aMajor) {
-        name = aName;
-        major = aMajor;
-        credits = 0;
-        points = 0;
+    Student(String thisName, String thisMajor) {
+        name = thisName;
+        major = thisMajor;
+        creditHours = 0;
+        gpaPoints = 0;
     }
 
-    // takes int c for credits and double p for points
-    // adds credits and class GPA to instance variables
-    public void courseCompleted(int c, double p) {
-        credits += c;
-        points += p * c;
+    // -------- RUNNING TOTAL OF CREDIT HOURS AND POINTS ACCUMULATED ------
+    public void courseCompleted(int credits, double points) {
+        creditHours += credits;
+        gpaPoints += points * credits;
     }
 
     @Override
     public String toString() {
-        String s = ("Name: ") + name;
-        s += (", Major: ") + major;
-        if (credits == 0) {
-            s += (", GPA: n/a");
+        String output = ("Name: ") + name + "\n";
+        output += ("Major: ") + major + "\n";
+        if (creditHours == 0) {
+            output += ("GPA: 4.00 \n");
         } else {
-            s += (", GPA: ") + (points / credits);
+            output += ("GPA: ") + (gpaPoints / creditHours);
         }
-        return s;
+        return output;
     }
 }
