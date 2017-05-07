@@ -34,7 +34,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         selectionBox = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("Project 4");
+        setTitle("Project 4 - University of Matty");
         setAlwaysOnTop(true);
 
         idLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
@@ -68,10 +68,6 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(processButton)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
@@ -89,6 +85,10 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                     .addComponent(majorTextField)
                     .addComponent(selectionBox, 0, 180, Short.MAX_VALUE))
                 .addGap(30, 30, 30))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(23, 23, 23)
+                .addComponent(processButton)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {idLabel, majorLabel, nameLabel});
@@ -112,9 +112,9 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(selectionLabel)
                     .addComponent(selectionBox, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(24, 24, 24)
+                .addGap(18, 18, 18)
                 .addComponent(processButton)
-                .addContainerGap(34, Short.MAX_VALUE))
+                .addContainerGap(40, Short.MAX_VALUE))
         );
 
         pack();
@@ -159,7 +159,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                     errorPane("No student with ID " + id + " exists in the database.");
                     break;
                 }
-                successPane("ID: " + id + ", " + database.get(id));
+                successPane("ID: " + id + "\n" + database.get(id));
                 break;
             case "Update":
                 if (!validateID()) {
