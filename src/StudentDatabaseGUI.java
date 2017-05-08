@@ -161,10 +161,10 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 double basePoints = convertGradeToPoints(grade);
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
-                successPane("Student #: " + id + "\n" +
-                            "Name: " + name + "\n"  +
-                            "Grade Assigned: " + grade + "\n" +
-                            "Credit Hours:  " + creditPoints);
+                successPane("Student #: " + id + "\n"
+                        + "Name: " + name + "\n"
+                        + "Grade Assigned: " + grade + "\n"
+                        + "Credit Hours:  " + creditPoints);
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
@@ -181,7 +181,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         }
         return true;
     }
-    
+
     // ------------ BOOLEAN CHECK OF NAME AND MAJOR FIELDS ---------------
     private boolean validateFields() {
         boolean hasName = true;
@@ -200,25 +200,25 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         if (major.equals("")) {
             hasMajor = false;
         }
-        if (!hasName || !hasMajor) {
-            if (!hasName && hasMajor) {
-                errorPane("Please enter a name.");
-            } else if (hasName && !hasMajor) {
-                errorPane("Please enter a major.");
-            } else {
-                errorPane("Please enter a name and major.");
-            }
+        if (!hasName && hasMajor) {
+            errorPane("Please enter a name.");
+            return false;
+        } else if (hasName && !hasMajor) {
+            errorPane("Please enter a major.");
+            return false;
+        } else if (!hasName && !hasMajor) {
+            errorPane("Please enter a name and major.");
             return false;
         }
         return true;
     }
-    
+
     // ----------------- ERROR INFOPANE METHOD -------------------------
     private void errorPane(String error) {
         JOptionPane.showMessageDialog(this, error, "Error",
                 JOptionPane.ERROR_MESSAGE);
     }
-    
+
     // ---------------- SUCCESS INFOPANE METHOD ---------------------
     private void successPane(String success) {
         JOptionPane.showMessageDialog(this, success, "Success",
@@ -235,17 +235,23 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         pointPanel.add(gradeBox);
         JOptionPane.showMessageDialog(this, pointPanel, "Grade",
                 JOptionPane.QUESTION_MESSAGE);
-        return (String)gradeBox.getSelectedItem();
+        return (String) gradeBox.getSelectedItem();
     }
-    
-    private double convertGradeToPoints (String val) {
-        switch (val){
-            case "A": return 4;
-            case "B": return 3;
-            case "C": return 2;
-            case "D": return 1;
-            case "F": return 0;
-            default : return 0;
+
+    private double convertGradeToPoints(String val) {
+        switch (val) {
+            case "A":
+                return 4;
+            case "B":
+                return 3;
+            case "C":
+                return 2;
+            case "D":
+                return 1;
+            case "F":
+                return 0;
+            default:
+                return 0;
         }
     }
 
