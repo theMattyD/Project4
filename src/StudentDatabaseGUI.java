@@ -162,7 +162,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
                 successPane("Student #: " + id + "\n"
-                        + "Name: " + name + "\n"
+                        + "Name: " + database.get(id).getName() + "\n"
                         + "Grade Assigned: " + grade + "\n"
                         + "Credit Hours:  " + creditPoints);
                 break;
@@ -184,22 +184,19 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
 
     // ------------ BOOLEAN CHECK OF NAME AND MAJOR FIELDS ---------------
     private boolean validateFields() {
-        boolean hasName = true;
-        boolean hasMajor = true;
         try {
             id = Integer.parseInt(idTextField.getText());
         } catch (NumberFormatException e) {
             errorPane("Please enter an integer for the ID.");
             return false;
         }
+        
         name = nameTextField.getText();
         major = majorTextField.getText();
-        if (name.equals("")) {
-            hasName = false;
-        }
-        if (major.equals("")) {
-            hasMajor = false;
-        }
+
+        boolean hasName = !name.isEmpty();
+        boolean hasMajor = !major.isEmpty();
+
         if (!hasName && hasMajor) {
             errorPane("Please enter a name.");
             return false;

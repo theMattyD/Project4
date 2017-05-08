@@ -18,6 +18,11 @@ class Student {
         gpaPoints = 0;
     }
 
+    public String getName(){
+        return name;
+    }
+        
+
     // -------- RUNNING TOTAL OF CREDIT HOURS AND POINTS ACCUMULATED ------
     public void courseCompleted(int credits, double points) {
         creditHours += credits;
