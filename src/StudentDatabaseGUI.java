@@ -141,32 +141,20 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 successPane("Student #" + id + " added to database.");
                 break;
             case "Delete":
-                if (!validateID()) {
-                    break;
-                }
-                if (!database.containsKey(id)) {
-                    errorPane("No student with ID " + id + " exists in the database.");
+                if (!isValidID()) {
                     break;
                 }
                 database.remove(id);
                 successPane("Student # " + id + " removed from database.");
                 break;
             case "Find":
-                if (!validateID()) {
-                    break;
-                }
-                if (!database.containsKey(id)) {
-                    errorPane("No student with ID " + id + " exists in the database.");
+                if (!isValidID()) {
                     break;
                 }
                 successPane("ID: " + id + "\n" + database.get(id));
                 break;
             case "Update":
-                if (!validateID()) {
-                    break;
-                }
-                if (!database.containsKey(id)) {
-                    errorPane("No student with ID " + id + " exists in the database.");
+                if (!isValidID()) {
                     break;
                 }
                 String grade = getGradeFromUser();
@@ -180,7 +168,20 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
-
+    private boolean isValidID() {
+        try {
+            id = Integer.parseInt(idTextField.getText());
+        } catch (NumberFormatException e) {
+            errorPane("Please enter an integer value for the ID.");
+            return false;
+        }
+        if (!database.containsKey(id)) {
+            errorPane("No student with ID " + id + " exists in the database.");
+            return false;
+        }
+        return true;
+    }
+    
     // ------------ BOOLEAN CHECK OF NAME AND MAJOR FIELDS ---------------
     private boolean validateFields() {
         boolean hasName = true;
@@ -211,18 +212,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         }
         return true;
     }
-
-    // --------- VALIDATE THAT STUDENT ID IS AN INTEGER METHOD -------------
-    private boolean validateID() {
-        try {
-            id = Integer.parseInt(idTextField.getText());
-        } catch (NumberFormatException e) {
-            errorPane("Please enter an integer value for the ID.");
-            return false;
-        }
-        return true;
-    }
-
+    
     // ----------------- ERROR INFOPANE METHOD -------------------------
     private void errorPane(String error) {
         JOptionPane.showMessageDialog(this, error, "Error",
