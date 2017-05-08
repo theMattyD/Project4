@@ -165,6 +165,8 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
+    // ------- BOOLEAN CHECK TO INSURE ID IS AN INTEGER AND WHETHER THE ID ----
+    // ---------------- ALREADY EXISTS IN THE DATABASE OR NOT -----------------
     private boolean isValidID() {
         try {
             id = Integer.parseInt(idTextField.getText());
@@ -232,6 +234,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         return (String) gradeBox.getSelectedItem();
     }
 
+    // -- METHOD TO DISPLAY A LETTER GRADE INSTEAD OF THE GRADE INDEX VALUE --
     private double convertGradeToPoints(String val) {
         switch (val) {
             case "A":
