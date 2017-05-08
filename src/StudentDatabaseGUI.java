@@ -141,30 +141,27 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                 successPane("Student #" + id + " added to database.");
                 break;
             case "Delete":
-                if (!isValidID()) {
-                    break;
+                if (isValidID()) {
+                    database.remove(id);
+                    successPane("Student # " + id + " removed from database.");
                 }
-                database.remove(id);
-                successPane("Student # " + id + " removed from database.");
                 break;
             case "Find":
-                if (!isValidID()) {
-                    break;
+                if (isValidID()) {
+                    successPane("ID: " + id + "\n" + database.get(id));
                 }
-                successPane("ID: " + id + "\n" + database.get(id));
                 break;
             case "Update":
-                if (!isValidID()) {
-                    break;
+                if (isValidID()) {
+                    String grade = getGradeFromUser();
+                    double basePoints = convertGradeToPoints(grade);
+                    int creditPoints = getCredits();
+                    database.get(id).courseCompleted(creditPoints, basePoints);
+                    successPane("Student #: " + id + "\n"
+                            + "Name: " + database.get(id).getName() + "\n"
+                            + "Grade Assigned: " + grade + "\n"
+                            + "Credit Hours:  " + creditPoints);
                 }
-                String grade = getGradeFromUser();
-                double basePoints = convertGradeToPoints(grade);
-                int creditPoints = getCredits();
-                database.get(id).courseCompleted(creditPoints, basePoints);
-                successPane("Student #: " + id + "\n"
-                        + "Name: " + database.get(id).getName() + "\n"
-                        + "Grade Assigned: " + grade + "\n"
-                        + "Credit Hours:  " + creditPoints);
                 break;
         }
     }//GEN-LAST:event_processButtonActionPerformed
