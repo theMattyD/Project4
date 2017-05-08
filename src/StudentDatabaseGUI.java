@@ -169,13 +169,13 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
                     errorPane("No student with ID " + id + " exists in the database.");
                     break;
                 }
-                double basePoints = getPoints();
+                String grade = getGradeFromUser();
+                double basePoints = convertGradeToPoints(grade);
                 int creditPoints = getCredits();
                 database.get(id).courseCompleted(creditPoints, basePoints);
-                String gradeEquivalent = "this don't work";
                 successPane("Student #: " + id + "\n" +
                             "Name: " + name + "\n"  +
-                            "Grade Assigned: " + gradeEquivalent + "\n" +
+                            "Grade Assigned: " + grade + "\n" +
                             "Credit Hours:  " + creditPoints);
                 break;
         }
@@ -236,7 +236,7 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
     }
 
     // ----------- FOR 'UPDATE' RECORD, SELECT STUDENT GRADE ------------
-    private double getPoints() {
+    private String getGradeFromUser() {
         JPanel pointPanel = new JPanel();
         String[] gradeOptions = {"A", "B", "C", "D", "F"};
         JComboBox gradeBox = new JComboBox<>(gradeOptions);
@@ -245,7 +245,18 @@ public class StudentDatabaseGUI extends javax.swing.JFrame {
         pointPanel.add(gradeBox);
         JOptionPane.showMessageDialog(this, pointPanel, "Grade",
                 JOptionPane.QUESTION_MESSAGE);
-        return 4 - gradeBox.getSelectedIndex();
+        return (String)gradeBox.getSelectedItem();
+    }
+    
+    private double convertGradeToPoints (String val) {
+        switch (val){
+            case "A": return 4;
+            case "B": return 3;
+            case "C": return 2;
+            case "D": return 1;
+            case "F": return 0;
+            default : return 0;
+        }
     }
 
     // --------- FOR 'UPDATE' RECORD, SELECT STUDENT CREDIT POINTS --------

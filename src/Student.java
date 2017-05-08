@@ -26,12 +26,13 @@ class Student {
 
     @Override
     public String toString() {
-        String output = ("Name: ") + name + "\n";
-        output += ("Major: ") + major + "\n";
+        String output = "Name: " + name + "\n" +
+                        "Major: " + major + "\n" +
+                        "GPA: ";
         if (creditHours == 0) {
-            output += ("GPA: 4.00 \n");
+            output += "4.00 \n";
         } else {
-            output += ("GPA: ") + (gpaPoints / creditHours);
+            output += String.format("%.2f", gpaPoints / creditHours);
         }
         return output;
     }
